@@ -6,7 +6,7 @@ metadata:
     app: {{ .Values.postgres.name }}
 spec:
   serviceName: {{ .Values.postgres.name }}
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.postgres.name }}

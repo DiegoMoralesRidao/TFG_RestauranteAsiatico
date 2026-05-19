@@ -36,7 +36,7 @@ construir_y_arrancar(){
     
     log "Limpiando node_modules previos e instalando dependencias..."
     rm -rf node_modules
-    npm install
+    npm install --no-audit --no-fund --prefer-offline
     
     # Asegurar permisos de ejecución para los binarios de node_modules
     chmod -R +x node_modules/.bin
