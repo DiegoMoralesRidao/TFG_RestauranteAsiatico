@@ -1,0 +1,165 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Product } from './products/product.entity';
+import { Repository } from 'typeorm';
+
+async function bootstrap() {
+  const app = await NestFactory.createApplicationContext(AppModule);
+  const productRepository = app.get<Repository<Product>>(getRepositoryToken(Product));
+
+  const menu = [
+    { name: "Ensalada China", description: "Ensalada tradicional con aliño chino.", price: 5.25, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Ensalada de la Casa", description: "Mezcla fresca de vegetales.", price: 6.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Ensalada de algas verdes japonesas con gambas", description: "", price: 6.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Wakame con pepino", description: "", price: 6.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Rollito de Primavera (2 uds)", description: "", price: 3.5, category: "Aperitivos y Entrantes", isPopular: true },
+    { name: "Pan chino frito o al vapor (4 uds)", description: "", price: 3.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Gyoza (empanadillas japonesas) a la plancha (6 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Gyoza al vapor (6 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Croquetas de cangrejo (6 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Alitas de pollo fritas al estilo chino", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: true },
+    { name: "Calamares fritos", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Langostinos fritos", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Gambas fritas", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Costilla de cerdo a la sal y pimienta", description: "", price: 8.95, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Dumpling cocido (6 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Bolas de pollo fritas (6 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Satay (pinchos) de pollo o ternera (3 uds)", description: "", price: 7.5, category: "Aperitivos y Entrantes", isPopular: false },
+    { name: "Miso (sopa típica japonesa de algas)", description: "Sopa típica japonesa de algas.", price: 6.5, category: "Sopas", isPopular: false },
+    { name: "Tomyamkum (sopa picante de langostinos, salmón, piña y aroma de limón)", description: "Sopa picante de langostinos, salmón, piña y aroma de limón.", price: 6.5, category: "Sopas", isPopular: true },
+    { name: "Sopa agria picante", description: "", price: 6.5, category: "Sopas", isPopular: false },
+    { name: "Sopa de pollo con caldo de jengibre", description: "", price: 6.5, category: "Sopas", isPopular: false },
+    { name: "Sopa de rabo de buey", description: "", price: 6.5, category: "Sopas", isPopular: false },
+    { name: "Tempura Variada de Verduras", description: "Verduras variadas en rebozado ligero y crujiente.", price: 7.95, category: "Tempura", isPopular: false },
+    { name: "Tempura de Langostinos", description: "Langostinos rebozados al estilo tempura.", price: 9.95, category: "Tempura", isPopular: true },
+    { name: "Tempura Mixta de Verduras, Pescado, Cangrejo y Langostinos", description: "", price: 10.95, category: "Tempura", isPopular: false },
+    { name: "Nigiri de Salmón (2 uds)", description: "", price: 4.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Nigiri de Atún (2 uds)", description: "", price: 4.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Nigiri de Langostino (2 uds)", description: "", price: 4.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Maki California (8 uds)", description: "", price: 8.5, category: "Sushi y Maki", isPopular: true },
+    { name: "Maki de Salmón (8 uds)", description: "", price: 8.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Maki de Aguacate (8 uds)", description: "", price: 8.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Maki de Pepino (8 uds)", description: "", price: 7.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Maki Mixto (16 uds – California, Salmón y Pepino)", description: "", price: 14.5, category: "Sushi y Maki", isPopular: true },
+    { name: "Ura Maki (Inside-Out California)", description: "", price: 9.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Foto Maki (lechuga con huevo)", description: "", price: 9.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Foto Maki (lechuga con huevo) grande", description: "", price: 9.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Foto Maki (lechuga con huevo) especial", description: "", price: 9.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Mixto Maki", description: "", price: 9.5, category: "Sushi y Maki", isPopular: false },
+    { name: "Verduras variadas", description: "", price: 5.75, category: "Verduras", isPopular: false },
+    { name: "Tu-fu con verduras", description: "", price: 6.75, category: "Verduras", isPopular: false },
+    { name: "Bambú y Setas Chinas variadas", description: "", price: 6.75, category: "Verduras", isPopular: false },
+    { name: "Brotes de Soja fritos (solo fines de semana)", description: "", price: 6.75, category: "Verduras", isPopular: false },
+    { name: "Pollo con Almendras", description: "Pollo salteado con verduras and almendras.", price: 7.5, category: "Pollo", isPopular: true },
+    { name: "Pollo con Salsa Agridulce", description: "", price: 7.5, category: "Pollo", isPopular: false },
+    { name: "Pollo al Curry Tailandés", description: "", price: 8.5, category: "Pollo", isPopular: true },
+    { name: "Pollo desmenuzado aromatizado picante", description: "", price: 8.95, category: "Pollo", isPopular: false },
+    { name: "Pollo al Jengibre con cebolla de verdeo", description: "", price: 7.75, category: "Pollo", isPopular: false },
+    { name: "Gongbao – Pollo a la salsa picante", description: "", price: 8.95, category: "Pollo", isPopular: false },
+    { name: "Pollo frito al estilo Inglés", description: "", price: 8.95, category: "Pollo", isPopular: false },
+    { name: "Pollo de Taiwan", description: "", price: 7.95, category: "Pollo", isPopular: false },
+    { name: "Bolas de Pollo frito", description: "", price: 8.75, category: "Pollo", isPopular: false },
+    { name: "Tipan de Pollo con salsa a la plancha", description: "", price: 9.9, category: "Pollo", isPopular: false },
+    { name: "Pollo con Salsa de Curry", description: "", price: 8.5, category: "Pollo", isPopular: false },
+    { name: "Pollo con Salsa de Limón", description: "", price: 8.5, category: "Pollo", isPopular: false },
+    { name: "Ternera Tailandesa", description: "", price: 7.75, category: "Ternera", isPopular: false },
+    { name: "Ternera con Bambú y Setas Chinas", description: "", price: 8.75, category: "Ternera", isPopular: false },
+    { name: "Ternera de Hong-Kong", description: "", price: 9.95, category: "Ternera", isPopular: false },
+    { name: "Ternera a la Pimienta Negra", description: "", price: 8.75, category: "Ternera", isPopular: false },
+    { name: "Tipan de Ternera con salsa a la plancha", description: "", price: 9.95, category: "Ternera", isPopular: false },
+    { name: "Ternera de Sichuan picante", description: "", price: 8.75, category: "Ternera", isPopular: false },
+    { name: "Ternera con Salsa de Curry", description: "", price: 8.75, category: "Ternera", isPopular: false },
+    { name: "Ternera con Salsa de Ostras", description: "", price: 8.75, category: "Ternera", isPopular: true },
+    { name: "Ternera con Salsa de Champiñones", description: "", price: 8.75, category: "Ternera", isPopular: false },
+    { name: "Pato Tailandés", description: "", price: 10.95, category: "Pato", isPopular: false },
+    { name: "Pato Asado a la Pekinesa (con crepes)", description: "Pato asado tradicional con crepes.", price: 15.95, category: "Pato", isPopular: true },
+    { name: "Pato con Salsa Barbacoa", description: "", price: 10.95, category: "Pato", isPopular: false },
+    { name: "Pato con Bambú y Setas Chinas", description: "", price: 10.95, category: "Pato", isPopular: false },
+    { name: "Pato asado con Salsa de Naranja", description: "", price: 10.95, category: "Pato", isPopular: false },
+    { name: "Pato asado con Salsa Sichuan picante", description: "", price: 10.95, category: "Pato", isPopular: false },
+    { name: "Crujiente de Pato", description: "", price: 14.95, category: "Pato", isPopular: false },
+    { name: "Pescado con Salsa Tailandesa", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Merluza con Bambú y Setas", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Calamares a la Plancha", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Langostinos leche de coco Curry Tailandés", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: true },
+    { name: "Langostinos con Salsa Vietnamita", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Langostinos con Ajo", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Gambas con Salsa de Curry", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Gambas con Bambú y Setas Chinas", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Gambas con Salsa Agridulce", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Langostinos a la Pimienta y Sal", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Gambas con Salsa Picante", description: "", price: 10.25, category: "Pescado y Gambas", isPopular: false },
+    { name: "Cerdo con Salsa de Jengibre Picante", description: "", price: 9.95, category: "Cerdo", isPopular: false },
+    { name: "Costilla de Cerdo a la Sal y Pimienta", description: "", price: 9.95, category: "Cerdo", isPopular: true },
+    { name: "Cerdo con Salsa Agridulce", description: "Clásico cerdo en salsa agridulce.", price: 7.95, category: "Cerdo", isPopular: false },
+    { name: "Costilla de Cerdo con Salsa Vietnamita", description: "", price: 9.95, category: "Cerdo", isPopular: false },
+    { name: "Costilla de Cerdo con Salsa al Horno", description: "", price: 9.95, category: "Cerdo", isPopular: false },
+    { name: "Cordero de Mongolia picante", description: "", price: 10.95, category: "Cordero", isPopular: false },
+    { name: "Tiepan de Cordero con Salsa Especial", description: "", price: 10.95, category: "Cordero", isPopular: false },
+    { name: "Cordero al Curry Indio", description: "", price: 10.95, category: "Cordero", isPopular: false },
+    { name: "Familia Feliz (ternera, pollo, cordero y gambas)", description: "", price: 10.95, category: "Cordero", isPopular: true },
+    { name: "Arroz Frito de la Casa", description: "", price: 7.25, category: "Arroces", isPopular: false },
+    { name: "Arroz Frito with Tres Delicias", description: "", price: 5.25, category: "Arroces", isPopular: true },
+    { name: "Arroz Frito con Pollo, Ternera o Gambas", description: "", price: 6.25, category: "Arroces", isPopular: false },
+    { name: "Arroz a la Japonesa", description: "", price: 7.25, category: "Arroces", isPopular: false },
+    { name: "Arroz Blanco", description: "", price: 2.5, category: "Arroces", isPopular: false },
+    { name: "Coreano Bibimbap", description: "", price: 7.75, category: "Arroces", isPopular: false },
+    { name: "Tallarines Fritos de la Casa", description: "Tallarines especiales con verduras y carne.", price: 7.25, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Tallarines Fritos con Tres Delicias", description: "", price: 5.25, category: "Tallarines y Fideos", isPopular: true },
+    { name: "Tallarines Fritos con Pollo o Ternera", description: "", price: 6.25, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Tallarines Fritos a la Japonesa", description: "", price: 9.95, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Fideos de Arroz Fritos de la Casa", description: "", price: 7.95, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Fideos de Arroz Fritos con Tres Delicias", description: "", price: 5.65, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Singapur – Fideos de Arroz Fritos", description: "", price: 7.95, category: "Tallarines y Fideos", isPopular: true },
+    { name: "Udon – Tallarines Japoneses", description: "", price: 6.95, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Patatas Fritas", description: "", price: 2.85, category: "Tallarines y Fideos", isPopular: false },
+    { name: "Salchichas con Patatas Fritas y Huevos", description: "", price: 6.5, category: "Menú de Niños", isPopular: false },
+    { name: "Chuleta de Cerdo con Patatas Fritas", description: "", price: 6.5, category: "Menú de Niños", isPopular: false },
+    { name: "Pechuga de Pollo rebozada con Patatas Fritas", description: "", price: 6.5, category: "Menú de Niños", isPopular: false },
+    { name: "Merluza Frita con Patatas Fritas", description: "", price: 6.5, category: "Menú de Niños", isPopular: false },
+    { name: "Calamares con Patatas Fritas", description: "", price: 6.5, category: "Menú de Niños", isPopular: false },
+    { name: "Menú 1: Con Cerdo Agridulce", description: "", price: 10.5, category: "Menú del Día", isPopular: true },
+    { name: "Menú 2: Con Costilla Asada Pimienta y Sal", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 3: Con Huevo Frito Tres Delicias", description: "", price: 10.5, category: "Menú del Día", isPopular: false },
+    { name: "Menú 4: Con Pollo Salsa Tailandesa", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 5: Con Pollo con Almendras", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 6: Con Ternera Bambú y Setas Chinas", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 7: Con Ternera Salsa Tailandesa", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 8: Con Ternera Plancha Salsa Barbacoa", description: "", price: 11.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 9: Con Pollo Salsa de Limón", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 10: Con Tiepan de Pato", description: "", price: 11.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 11: Con Tiepan de Langostinos", description: "", price: 11.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú 12: Con Merluza Salsa de Limón", description: "", price: 10.95, category: "Menú del Día", isPopular: false },
+    { name: "Menú para 2 Personas", description: "Rollito de Primavera (2), Ensalada China, Pollo con Almendras, Ternera con Salsa de Ostras, Arroz Frito Tres Delicias. (Bebida y postre NO incluidos para llevar)", price: 25.5, category: "Menús para Grupos", isPopular: true },
+    { name: "Menú para 3 Personas", description: "Rollito de Primavera (3), Ensalada China, Pollo con Almendras, Ternera con Bambú y Setas, Cerdo Agridulce, Arroz Frito Tres Delicias (Grande). (Bebida y postre NO incluidos para llevar)", price: 36.5, category: "Menús para Grupos", isPopular: false },
+    { name: "Menú para 4 Personas", description: "Rollito de Primavera (4), Ensalada China (2), Pollo con Almendras, Ternera con Pimienta Negra, Bolas de Pollo Frito, Pato con Salsa Barbacoa, Arroz Frito Tres Delicias (2). (Bebida y postre NO incluidos para llevar)", price: 48, category: "Menús para Grupos", isPopular: false },
+    { name: "Bola de Helado o Flan", description: "", price: 1.95, category: "Postres y Bebidas", isPopular: false },
+    { name: "Helado Frito", description: "", price: 3.75, category: "Postres y Bebidas", isPopular: false },
+    { name: "Lichi", description: "", price: 3.75, category: "Postres y Bebidas", isPopular: false },
+    { name: "Fresa China", description: "", price: 3.75, category: "Postres y Bebidas", isPopular: false },
+    { name: "Cerveza China", description: "", price: 2.95, category: "Postres y Bebidas", isPopular: false },
+    { name: "Refresco (Coca-Cola, Fanta, Sprite)", description: "", price: 1.9, category: "Postres y Bebidas", isPopular: false },
+    { name: "Agua Mineral", description: "", price: 1.5, category: "Postres y Bebidas", isPopular: false }
+  ];
+
+  for (const item of menu) {
+    const exists = await productRepository.findOne({ where: { name: item.name } });
+    if (!exists) {
+      await productRepository.save(productRepository.create(item));
+      console.log(`Added: ${item.name}`);
+    } else {
+      // Update existing items to ensure they have the right category and popularity
+      await productRepository.update(exists.id, { 
+        category: item.category, 
+        isPopular: item.isPopular,
+        description: item.description || exists.description 
+      });
+    }
+  }
+
+  console.log('Seeding completed!');
+  await app.close();
+}
+
+bootstrap();
