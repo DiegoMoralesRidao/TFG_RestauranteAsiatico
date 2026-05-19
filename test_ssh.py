@@ -32,7 +32,7 @@ print(stderr.read().decode())
 client.exec_command("rm /tmp/megacrossover.tar")
 
 print("Building and pushing frontend image on VPS...")
-cmd = "helm upgrade --install restaruante -f /home/diego/TFG_RestauranteAsiatico/docker/megacrossover/proyecto/personal/restaruante/values.yaml /home/diego/TFG_RestauranteAsiatico/docker/megacrossover/proyecto/personal/restaruante"
+cmd = "kubectl get pods"
 stdin, stdout, stderr = client.exec_command(cmd)
 print(stdout.read().decode())
 print(stderr.read().decode())
