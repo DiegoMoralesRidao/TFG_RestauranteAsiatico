@@ -80,6 +80,13 @@ export default function MenuPage() {
           .filter(name => categories[name])
           .map(name => categories[name]);
 
+        // Append any categories not in categoryConfig
+        Object.keys(categories).forEach(name => {
+          if (!categoryConfig[name]) {
+            sortedCategories.push(categories[name]);
+          }
+        });
+
         setMenu(sortedCategories);
       } catch (err: any) {
         setError(err.message);
