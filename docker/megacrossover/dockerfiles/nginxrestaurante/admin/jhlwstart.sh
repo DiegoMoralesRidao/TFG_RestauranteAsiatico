@@ -34,21 +34,6 @@ construir_y_arrancar(){
     log "Usando API URL: $NEXT_PUBLIC_API_URL"
     export NEXT_PUBLIC_API_URL
     
-    log "Limpiando node_modules previos e instalando dependencias..."
-    rm -rf node_modules
-    npm install --no-audit --no-fund --prefer-offline
-    
-    # Asegurar permisos de ejecución para los binarios de node_modules
-    chmod -R +x node_modules/.bin
-    
-    # Construir proyecto Next.js
-    if npm run build; then
-        log "Proyecto Next.js construido"
-    else
-        log "ERROR: Falló npm run build"
-        exit 1
-    fi
-    
     # Arrancar Next.js en segundo plano
     log "Arrancando Next.js en segundo plano..."
     HOST=0.0.0.0 PORT=3000 npm start &

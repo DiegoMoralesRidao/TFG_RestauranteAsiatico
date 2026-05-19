@@ -16,6 +16,13 @@ WORKDIR /root/admin/node
 # Copiar el proyecto NextJS
 COPY ./proyecto/prestaurante/frontend/ /root/admin/node/proyectos/restaurante_frontend/
 
+# Instalar dependencias y compilar el proyecto Next.js en la fase de construccion
+WORKDIR /root/admin/node/proyectos/restaurante_frontend
+ARG NEXT_PUBLIC_API_URL=https://backend.api.recuperacion.asiaticohuercal.es
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN npm install --no-audit --no-fund
+RUN npm run build
+
 # Directorio base para Nginx
 RUN mkdir -p /root/admin/nginxrestaurante
 WORKDIR /root/admin/nginxrestaurante
