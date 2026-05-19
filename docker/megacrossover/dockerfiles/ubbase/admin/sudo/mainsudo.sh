@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 configurar_sudo() {
   echo "Configurando sudo para javier..." >> /root/logs/informe.log

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 LOG_DIR="/root/logs"
 LOG_FILE="$LOG_DIR/informe_postgre.log"
@@ -123,3 +123,4 @@ main() {
 }
 
 main
+

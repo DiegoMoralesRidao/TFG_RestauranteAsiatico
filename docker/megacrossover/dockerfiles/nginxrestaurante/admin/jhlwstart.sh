@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+﻿#!/bin/bash
 
 LOG_DIR="/root/logs"
 LOG_FILE="$LOG_DIR/informe_frontend.log"
@@ -9,13 +8,14 @@ log() {
     echo "$1" >> "$LOG_FILE"
 }
 
-load_entrypoint_base(){
-    log "Cargando entrypoint base (SSH, usuario, sudo)..."
-    if [ -f /root/admin/base/jhlwstart.sh ]; then
-        bash /root/admin/base/jhlwstart.sh || log "ADVERTENCIA: Entrypoint base falló, continuando..."
-        log "Entrypoint base ejecutado"
+load_entrypoint_nginx(){
+    log "Cargando entrypoint Nginx..."
+    
+    if [ -f /root/admin/sweb/nginx/jhlwstart.sh ]; then
+        bash /root/admin/sweb/nginx/jhlwstart.sh || log "ADVERTENCIA: Entrypoint Nginx falló, continuando..."
+        log "Entrypoint Nginx ejecutado"
     else
-        log "ADVERTENCIA: jhlwstart.sh de base no encontrado"
+        log "ADVERTENCIA: jhlwstart.sh de Nginx no encontrado"
     fi
 }
 
@@ -30,13 +30,33 @@ directorio_de_trabajo(){
     fi
 }
 
-arrancar_next(){
-    NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL:-http://backend.api.recuperacion.asiaticohuercal.es}"
-    export NEXT_PUBLIC_API_URL
+construir_y_arrancar(){
     log "Usando API URL: $NEXT_PUBLIC_API_URL"
+    export NEXT_PUBLIC_API_URL
+    
+    # Arrancar Next.js en segundo plano
+    log "Arrancando Next.js en segundo plano..."
+    HOST=0.0.0.0 PORT=3000 npm start &
+}
 
-    log "Arrancando Next.js en primer plano..."
-    exec HOST=0.0.0.0 PORT=3000 npm start
+cargar_nginx(){
+    log "Configurando Nginx..."
+    
+    # Verificar configuración de Nginx
+    nginx -t 2>&1 || log "ADVERTENCIA: nginx -t falló"
+    # Iniciar Nginx en primer plano (mantiene el contenedor vivo)
+    log "Nginx arrancando en primer plano..."
+    nginx -g 'daemon off;' 
+}
+
+load_entrypoint_base(){
+    log "Cargando entrypoint base (SSH, usuario, sudo)..."
+    if [ -f /root/admin/base/jhlwstart.sh ]; then
+        bash /root/admin/base/jhlwstart.sh || log "ADVERTENCIA: Entrypoint base falló, continuando..."
+        log "Entrypoint base ejecutado"
+    else
+        log "ADVERTENCIA: jhlwstart.sh de base no encontrado"
+    fi
 }
 
 main(){
@@ -45,8 +65,11 @@ main(){
     log "=== Iniciando contenedor Next.js Frontend ==="
     log "Fecha: $(date)"
     load_entrypoint_base
+    load_entrypoint_nginx
     directorio_de_trabajo
-    arrancar_next
+    construir_y_arrancar
+    cargar_nginx
+    #tail -f /dev/null
 }
 
 main

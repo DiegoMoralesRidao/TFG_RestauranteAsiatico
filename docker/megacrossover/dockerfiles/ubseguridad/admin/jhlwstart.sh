@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -e
 load_entrypoint_base(){
     bash /root/admin/base/jhlwstart.sh 
