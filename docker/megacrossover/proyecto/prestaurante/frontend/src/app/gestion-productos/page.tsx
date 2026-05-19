@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 
+import { API_URL } from '@/config';
+
 export default function GestionProductos() {
   const [productos, setProductos] = useState<any[]>([]);
   const [name, setName] = useState('');
@@ -20,7 +22,7 @@ export default function GestionProductos() {
   }, [user]);
 
   const fetchProductos = async () => {
-    const res = await fetch('http://localhost:3001/products');
+    const res = await fetch(`${API_URL}/products`);
     if (res.ok) setProductos(await res.json());
   };
 
@@ -28,7 +30,7 @@ export default function GestionProductos() {
     e.preventDefault();
     const productData = { name, description, price: parseFloat(price), imageUrl };
     
-    const url = editingId ? `http://localhost:3001/products/${editingId}` : 'http://localhost:3001/products';
+    const url = editingId ? `${API_URL}/products/${editingId}` : `${API_URL}/products`;
     const method = editingId ? 'PUT' : 'POST';
 
     await fetch(url, {
@@ -50,7 +52,7 @@ export default function GestionProductos() {
   };
 
   const handleDelete = async (id: number) => {
-    await fetch(`http://localhost:3001/products/${id}`, {
+    await fetch(`${API_URL}/products/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

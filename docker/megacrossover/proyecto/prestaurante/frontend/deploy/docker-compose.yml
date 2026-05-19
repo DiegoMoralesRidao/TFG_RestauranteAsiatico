@@ -1,0 +1,29 @@
+name: restaurante_frontend
+services:
+  web:
+    build:
+      context: /home/jiahaolin/proyecto_tfg/docker/megacrossover/
+      dockerfile: ./dockerfiles/nginxrestaurante/jhlwnginxrestaurante
+      args:
+        - INICIALES=jhlw
+    container_name: ctrestaurante_frontend01
+    image: jiahaolin69/restaurante_frontend01
+    ports:
+      - 3001:3000
+      - 8080:80
+    env_file:
+      - ./.env
+    volumes:
+      - ./logs:/root/logs
+    networks:
+      pnginx_network:
+        ipv4_address: 192.168.24.4
+      restaurante_backend_pnginx_network: {}
+networks:
+  pnginx_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.24.0/24
+  restaurante_backend_pnginx_network:
+    external: true

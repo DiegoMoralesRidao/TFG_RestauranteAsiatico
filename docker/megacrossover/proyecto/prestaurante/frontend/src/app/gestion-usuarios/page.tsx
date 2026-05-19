@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 
+import { API_URL } from '@/config';
+
 export default function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState<any[]>([]);
   const { user, token } = useAuth();
@@ -17,14 +19,14 @@ export default function GestionUsuarios() {
   }, [user]);
 
   const fetchUsuarios = async () => {
-    const res = await fetch('http://localhost:3001/users', {
+    const res = await fetch(`${API_URL}/users`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) setUsuarios(await res.json());
   };
 
   const handleChangeRole = async (id: number, perfil: string) => {
-    await fetch(`http://localhost:3001/users/${id}/perfil`, {
+    await fetch(`${API_URL}/users/${id}/perfil`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ perfil })
@@ -34,7 +36,7 @@ export default function GestionUsuarios() {
 
   const handleDelete = async (id: number) => {
     if (confirm('¿Seguro que quieres borrar este usuario?')) {
-      await fetch(`http://localhost:3001/users/${id}`, {
+      await fetch(`${API_URL}/users/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

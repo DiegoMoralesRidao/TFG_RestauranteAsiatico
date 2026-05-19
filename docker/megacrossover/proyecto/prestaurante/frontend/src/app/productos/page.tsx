@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+import { API_URL } from '@/config';
+
 export default function Productos() {
   const [productos, setProductos] = useState([]);
   const [query, setQuery] = useState('');
@@ -11,7 +13,7 @@ export default function Productos() {
   }, []);
 
   const fetchProductos = async (searchQuery = '') => {
-    const url = searchQuery ? `http://localhost:3001/products?query=${searchQuery}` : 'http://localhost:3001/products';
+    const url = searchQuery ? `${API_URL}/products?query=${searchQuery}` : `${API_URL}/products`;
     const res = await fetch(url);
     if (res.ok) {
       setProductos(await res.json());

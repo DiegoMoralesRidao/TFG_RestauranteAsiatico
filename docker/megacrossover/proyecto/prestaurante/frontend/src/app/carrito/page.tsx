@@ -76,10 +76,10 @@ export default function Carrito() {
                     <td>{item.product.name}</td>
                     <td>${item.product.price}</td>
                     <td>
-                      <input 
-                        type="number" 
-                        value={item.quantity} 
-                        min="1" 
+                      <input
+                        type="number"
+                        value={item.quantity}
+                        min="1"
                         onChange={(e) => handleUpdate(item.id, parseInt(e.target.value) || 1)}
                         className="form-control"
                         style={{ width: '80px', padding: '0.25rem 0.5rem' }}

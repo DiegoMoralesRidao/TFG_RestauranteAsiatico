@@ -3,6 +3,8 @@ import { useEffect, useState, use } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 
+import { API_URL } from '@/config';
+
 export default function ProductoDetalle({ params }: { params: Promise<{ id: string }> }) {
   const [producto, setProducto] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
@@ -13,7 +15,7 @@ export default function ProductoDetalle({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     const fetchProducto = async () => {
-      const res = await fetch(`http://localhost:3001/products/${resolvedParams.id}`);
+      const res = await fetch(`${API_URL}/products/${resolvedParams.id}`);
       if (res.ok) setProducto(await res.json());
     };
     fetchProducto();
@@ -21,7 +23,7 @@ export default function ProductoDetalle({ params }: { params: Promise<{ id: stri
 
   const addToCart = async () => {
     if (!user || !token) return;
-    const res = await fetch('http://localhost:3001/cart', {
+    const res = await fetch(`${API_URL}/cart`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
