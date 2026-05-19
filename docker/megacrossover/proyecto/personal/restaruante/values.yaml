@@ -8,7 +8,7 @@ postgres:
   image:
     repository: dmorrid/postgre01
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   auth:
     database: tienda_online
     username: postgres
@@ -25,7 +25,7 @@ backend:
   image:
     repository: dmorrid/restaurante_backend01
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicas: 2
   containerPort: 3000
   ssh:
@@ -41,7 +41,7 @@ frontend:
   image:
     repository: dmorrid/restaurante_frontend01
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicas: 2
   containerPort: 3000
   nginxPort: 80
