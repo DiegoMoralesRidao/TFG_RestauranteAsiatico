@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script de despliegue automático del TFG Restaurante Asiático en el VPS
+# Script de despliegue automático del TFG Restaurante Asiático en Docker (sin Kubernetes)
 
 # Detener la ejecución si ocurre algún error
 set -e
@@ -34,37 +34,35 @@ echo "Construyendo base de datos (postgre01)..."
 docker build -t dmorrid/postgre01 -f dockerfiles/postgre/jhlwpostgre .
 
 echo "Construyendo Next.js Frontend (restaurante_frontend01)..."
-docker build --build-arg NEXT_PUBLIC_API_URL=//backend.api.recuperacion.asiaticohuercal.es -t dmorrid/restaurante_frontend01 -f dockerfiles/nginxrestaurante/jhlwnginxrestaurante .
+docker build --build-arg NEXT_PUBLIC_API_URL=http://backend.api.recuperacion.asiaticohuercal.es -t dmorrid/restaurante_frontend01 -f dockerfiles/nginxrestaurante/jhlwnginxrestaurante .
 
 echo "Construyendo NestJS Backend (restaurante_backend01)..."
 docker build -t dmorrid/restaurante_backend01 -f dockerfiles/nest/jhlwrestaurante .
 
-echo ""
-echo "=================================================="
-echo " 4. Subiendo imágenes optimizadas a Docker Hub"
-echo "=================================================="
-docker push dmorrid/ubbase01:latest
-docker push dmorrid/ubseguridad01:latest
-docker push dmorrid/nginx101:latest
-docker push dmorrid/postgre01:latest
-docker push dmorrid/restaurante_frontend01:latest
-docker push dmorrid/restaurante_backend01:latest
+# Volver a la raíz del proyecto para Docker Compose
+cd ../..
 
 echo ""
 echo "=================================================="
-echo " 5. Actualizando recursos en Kubernetes mediante Helm"
+echo " 4. Liberando puertos de red en el servidor (Apagando MicroK8s)"
 echo "=================================================="
-# Volver a cargar el chart usando los valores limpios
-sudo microk8s helm3 upgrade restaruante proyecto/personal/restaruante --reset-values
+# Apagamos microk8s en caso de que esté activo para liberar el puerto 80
+if command -v microk8s &> /dev/null; then
+    echo "Deteniendo MicroK8s..."
+    sudo microk8s stop || true
+fi
 
 echo ""
 echo "=================================================="
-echo " 6. Reiniciando pods para descargar y aplicar las nuevas imágenes"
+echo " 5. Arrancando la aplicación en Docker Compose"
 echo "=================================================="
-sudo microk8s kubectl rollout restart deployment/restaurante-frontend
-sudo microk8s kubectl rollout restart deployment/restaurante-backend
+# Bajamos los contenedores anteriores si existen
+docker compose down || true
+
+# Levantamos la nueva versión en segundo plano
+docker compose up -d
 
 echo ""
 echo "=================================================="
-echo " ¡Despliegue automático finalizado correctamente!"
+echo " ¡Despliegue exclusivo en Docker completado con éxito!"
 echo "=================================================="
