@@ -15,6 +15,13 @@ spec:
       labels:
         app: {{ .Values.postgres.name }}
     spec:
+      initContainers:
+      - name: init-chmod-data
+        image: busybox:1.36
+        command: ["chmod", "-R", "777", "/var/lib/postgresql/data"]
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
       containers:
       - name: postgres
         image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
