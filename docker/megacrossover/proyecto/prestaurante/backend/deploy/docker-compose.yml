@@ -7,7 +7,7 @@ services:
       args:
         - INICIALES=jhlw
     container_name: ctrestaurante_backend01
-    image: jiahaolin69/restaurante_backend01
+    image: dmorrid/restaurante_backend01
     ports:
       - 3000:3000
     env_file:

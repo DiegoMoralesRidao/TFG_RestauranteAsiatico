@@ -7,7 +7,7 @@ services:
       args:
         - INICIALES=jhlw
     container_name: ctjhlwseguridad01
-    image: jiahaolin69/ubseguridad01
+    image: dmorrid/ubseguridad01
     ports:
       - 25:22
     env_file:

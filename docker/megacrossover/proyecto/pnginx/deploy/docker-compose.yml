@@ -7,7 +7,7 @@ services:
       args:
         - INICIALES=jhlw
     container_name: ctjhlwnginx01
-    image: jiahaolin69/nginx101
+    image: dmorrid/nginx101
     ports:
       - 6969:80
     env_file:

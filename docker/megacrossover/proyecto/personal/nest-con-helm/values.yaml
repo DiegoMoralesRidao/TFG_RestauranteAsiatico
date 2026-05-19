@@ -1,7 +1,7 @@
 app:
   name: webnest
   image:
-    repository: jiahaolin69/nginxpokeapi
+    repository: dmorrid/nginxpokeapi
     tag: latest
     pullPolicy: Always
   # containerPort: 3001   
@@ -23,7 +23,7 @@ app:
 postgres:
   name: postgre
   image:
-    repository: jiahaolin69/postgre
+    repository: dmorrid/postgre
     tag: "latest"
     pullPolicy: Always
   service:

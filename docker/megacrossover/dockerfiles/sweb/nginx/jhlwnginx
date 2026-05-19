@@ -1,4 +1,4 @@
-FROM jiahaolin69/ubseguridad01
+FROM dmorrid/ubseguridad01
 
 ARG INICIALES
 
