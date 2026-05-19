@@ -5,7 +5,6 @@ const app_module_1 = require("./app.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const product_entity_1 = require("./products/product.entity");
 async function bootstrap() {
-    process.env.DB_PASSWORD = 'usuario';
     const app = await core_1.NestFactory.createApplicationContext(app_module_1.AppModule);
     const productRepository = app.get((0, typeorm_1.getRepositoryToken)(product_entity_1.Product));
     const menu = [

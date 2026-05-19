@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 load_entrypoint_seguridad() {
     echo "Ejecutando entrypoint seguridad..." >> /root/logs/informe_restaurante_backend.log

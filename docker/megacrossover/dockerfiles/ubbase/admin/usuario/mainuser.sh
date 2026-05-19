@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 comprobar_usuario(){
     if grep -q "^javier:" /etc/passwd 

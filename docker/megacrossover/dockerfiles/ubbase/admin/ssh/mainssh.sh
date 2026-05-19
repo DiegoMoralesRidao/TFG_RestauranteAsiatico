@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 configurar_ssh() {
   echo "Configurando SSH..." >> /root/logs/informe.log

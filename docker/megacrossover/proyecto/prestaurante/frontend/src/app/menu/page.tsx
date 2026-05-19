@@ -2,6 +2,7 @@
 
 import MenuCard from "@/components/MenuCard";
 import { useState, useEffect } from "react";
+import { API_URL } from "@/config";
 
 interface Product {
   id: number;
@@ -27,9 +28,8 @@ export default function MenuPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://backend.api.asiaticohuercal.es";
-        console.log("Intentando conectar con el backend en:", apiUrl);
-        const response = await fetch(`${apiUrl}/products`);
+        console.log("Intentando conectar con el backend en:", API_URL);
+        const response = await fetch(`${API_URL}/products`);
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
