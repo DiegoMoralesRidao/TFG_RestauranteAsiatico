@@ -26,7 +26,7 @@ backend:
     repository: dmorrid/restaurante_backend01
     tag: latest
     pullPolicy: Always
-  replicas: 1
+  replicas: 2
   containerPort: 3000
   ssh:
     port: 3456
@@ -42,7 +42,7 @@ frontend:
     repository: dmorrid/restaurante_frontend01
     tag: latest
     pullPolicy: Always
-  replicas: 1
+  replicas: 2
   containerPort: 3000
   nginxPort: 80
   apiUrl: "https://backend.api.recuperacion.asiaticohuercal.es"
@@ -65,23 +65,23 @@ ingress:
   tls:
     - secretName: restaurante-tls
       hosts:
-        - asiaticohuercal.es
-        - www.asiaticohuercal.es
-        - backend.api.asiaticohuercal.es
+        - recuperacion.asiaticohuercal.es
+        - www.recuperacion.asiaticohuercal.es
+        - backend.api.recuperacion.asiaticohuercal.es
   hosts:
-    - host: asiaticohuercal.es
+    - host: recuperacion.asiaticohuercal.es
       serviceName: restaurante-frontend
       servicePort: 3000
       paths:
         - path: /
           pathType: Prefix
-    - host: www.asiaticohuercal.es
+    - host: www.recuperacion.asiaticohuercal.es
       serviceName: restaurante-frontend
       servicePort: 3000
       paths:
         - path: /
           pathType: Prefix
-    - host: backend.api.asiaticohuercal.es
+    - host: backend.api.recuperacion.asiaticohuercal.es
       serviceName: restaurante-backend
       servicePort: 3000
       paths:
