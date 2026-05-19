@@ -35,23 +35,8 @@ workdir(){
 }
 
 dependencias-y-servicio(){
-    echo "Instalando dependencias NestJS..." >> /root/logs/informe_restaurante_backend.log
-    
-    # Verificar si package.json existe
+    # Iniciar el servidor NestJS en modo producción
     if [ -f package.json ]; then
-        npm install -g npm@11.7.0
-        
-        # Limpiar node_modules e instalar
-        rm -rf node_modules
-        npm install && echo "Dependencias instaladas" >> /root/logs/informe_restaurante_backend.log
-        
-        # Asegurar permisos de ejecución
-        chmod -R +x node_modules/.bin
-        
-        # Compilar el proyecto NestJS (TypeScript -> JavaScript)
-        echo "Compilando proyecto NestJS..." >> /root/logs/informe_restaurante_backend.log
-        npm run build && echo "Proyecto compilado exitosamente" >> /root/logs/informe_restaurante_backend.log
-        
         # Ejecutar el seed antes de arrancar
         echo "Ejecutando seed.ts..." >> /root/logs/informe_restaurante_backend.log
         npm run seed -- -y && echo "Seeding completado" >> /root/logs/informe_restaurante_backend.log
