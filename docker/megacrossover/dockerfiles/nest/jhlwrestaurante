@@ -16,7 +16,8 @@ WORKDIR /root/admin/node/proyectos/restaurante_backend
 # Copiar el proyecto NestJS
 COPY ./proyecto/prestaurante/backend/ .
 
-# Instalar dependencias y compilar el proyecto
+# Limpiar node_modules, instalar y compilar
+RUN rm -rf node_modules
 RUN npm install
 RUN npm run build
 
