@@ -1,7 +1,7 @@
 # Default values for restaruante.
 global:
   iniciales: jhlw
-  domain: asiaticohuercal.es
+  domain: recuperacion.asiaticohuercal.es
   
 postgres:
   name: postgre01
@@ -45,7 +45,7 @@ frontend:
   replicas: 1
   containerPort: 3000
   nginxPort: 80
-  apiUrl: "https://backend.api.asiaticohuercal.es"
+  apiUrl: "https://backend.api.recuperacion.asiaticohuercal.es"
   ssh:
     port: 3456
     nodePort: 30557
