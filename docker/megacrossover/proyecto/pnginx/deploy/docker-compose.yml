@@ -1,0 +1,25 @@
+name: pnginx
+services:
+  web:
+    build:
+      context: /home/jiahaolin/proyecto_tfg/docker/megacrossover/
+      dockerfile: ./dockerfiles/sweb/nginx/jhlwnginx
+      args:
+        - INICIALES=jhlw
+    container_name: ctjhlwnginx01
+    image: jiahaolin69/nginx101
+    ports:
+      - 6969:80
+    env_file:
+      - ./.env
+    volumes:
+      - ./logs:/root/logs
+    networks:
+      pnginx_network:
+        ipv4_address: 192.168.28.3
+networks:
+  pnginx_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.28.0/24

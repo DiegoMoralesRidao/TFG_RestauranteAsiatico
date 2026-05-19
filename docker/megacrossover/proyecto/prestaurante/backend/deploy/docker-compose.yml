@@ -1,0 +1,29 @@
+name: restaurante_backend
+services:
+  web:
+    build:
+      context: /home/jiahaolin/proyecto_tfg/docker/megacrossover/
+      dockerfile: ./dockerfiles/nest/jhlwrestaurante
+      args:
+        - INICIALES=jhlw
+    container_name: ctrestaurante_backend01
+    image: jiahaolin69/restaurante_backend01
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    volumes:
+      - ./logs:/root/logs
+    networks:
+      pnginx_network:
+        ipv4_address: 192.168.23.3
+      ppostgre_ppostgre_network: {}
+
+networks:
+  pnginx_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET}
+  ppostgre_ppostgre_network:
+    external: true

@@ -1,0 +1,89 @@
+# Default values for restaruante.
+global:
+  iniciales: jhlw
+  domain: asiaticohuercal.es
+  
+postgres:
+  name: postgre01
+  image:
+    repository: jiahaolin69/postgre01
+    tag: latest
+    pullPolicy: Always
+  auth:
+    database: tienda_online
+    username: postgres
+    password: usuario
+  service:
+    port: 5432
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClassName: "microk8s-hostpath"
+
+backend:
+  name: restaurante-backend
+  image:
+    repository: jiahaolin69/restaurante_backend01
+    tag: latest
+    pullPolicy: Always
+  replicas: 1
+  containerPort: 3000
+  ssh:
+    port: 3456
+    nodePort: 30556
+  service:
+    type: NodePort
+    port: 3000
+    nodePort: 30100 # Puerto cambiado para evitar conflictos
+
+frontend:
+  name: restaurante-frontend
+  image:
+    repository: jiahaolin69/restaurante_frontend01
+    tag: latest
+    pullPolicy: Always
+  replicas: 1
+  containerPort: 3000
+  nginxPort: 80
+  apiUrl: "https://backend.api.asiaticohuercal.es"
+  ssh:
+    port: 3456
+    nodePort: 30557
+  service:
+    type: NodePort
+    port: 3000
+    nodePort: 30180 # Puerto cambiado para evitar conflictos
+
+ingress:
+  enabled: true
+  className: "public"
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Cert-manager: añade esto si tienes cert-manager instalado:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    - secretName: restaurante-tls
+      hosts:
+        - asiaticohuercal.es
+        - www.asiaticohuercal.es
+        - backend.api.asiaticohuercal.es
+  hosts:
+    - host: asiaticohuercal.es
+      serviceName: restaurante-frontend
+      servicePort: 3000
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: www.asiaticohuercal.es
+      serviceName: restaurante-frontend
+      servicePort: 3000
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: backend.api.asiaticohuercal.es
+      serviceName: restaurante-backend
+      servicePort: 3000
+      paths:
+        - path: /
+          pathType: Prefix
